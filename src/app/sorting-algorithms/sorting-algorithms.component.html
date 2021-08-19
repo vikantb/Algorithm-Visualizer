@@ -1,0 +1,23 @@
+
+<div class="text-center" >
+    <div class="row">
+        <div class="col-sm-2" style="width:150px;font-weight: 700;">Visual Speed : </div>
+        <input class="col-sm-2" style="width:100px" type="range" #visualSpeed (change)="changeVisualSpeed(visualSpeed.value)" />
+    </div>
+    <div class="row">
+        <div class="col-sm-2" style="width:150px;font-weight: 700;">Array Size : </div>
+        <input class="col-sm-2" style="width:100px" type="range" #arraySize (change)="changeArraySize(arraySize.value)" />
+    </div>
+    
+    <button type="button" class="btn btn-primary" (click)="bubbleSort()">Bubble Sort</button>
+    <button type="button" class="btn btn-success" (click)="selectionSort()">Selection Sort</button>
+    <button type="button" class="btn btn-danger" (click)="quickSort()">Quick Sort</button>
+    <button type="button" class="btn btn-secondary" (click)="resetArray()">Reset Array</button>
+</div>
+
+<div style="display:flex;" >
+    <div *ngFor="let num of array " class="mx-auto" >
+        <div style="border: 1px solid black; margin-left: 1px;" [style.height.px]="num" [style.width.px]="screenWidth*.8/numOfElements"></div>
+    </div>
+</div>
+
