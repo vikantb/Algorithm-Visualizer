@@ -41,7 +41,6 @@ export class SortingAlgorithmsComponent implements OnInit {
 
   quickSort(){
     this.quick.sort(this.array,this.visualSpeed);
-    console.log(this.array)
   }
 
   changeVisualSpeed(value:any){
@@ -49,7 +48,7 @@ export class SortingAlgorithmsComponent implements OnInit {
   }
 
   changeArraySize(value:any){
-    this.numOfElements=value*2;
+    this.numOfElements=value*3;
     this.resetArray();
   }
 

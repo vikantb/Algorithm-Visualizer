@@ -10,9 +10,10 @@ export class SelectionSortComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+   
   }
 
-  sort(array:number[],visualSpeed:number){
+  sort(array:number[],visualSpeed:number){ 
     let row=0;
     let column =0;
     let numOfElements:number=array.length;

@@ -14,49 +14,70 @@ export class QuickSortComponent implements OnInit {
   }
 
   sort(arr:number[],visualSpeed:number){
-	    this.visualSpeed = visualSpeed;
+	    this.visualSpeed = 2*visualSpeed;
     	this.quickSort(arr,0,arr.length-1);
   }
 
-  async partition(arr:number[],low:number,high:number) { 
-		let pivot= arr[ Math.floor((low+high)/2) ];
-	    while(low<=high){
-			// let interval=setInterval(() => { if( low>high ) clearInterval(interval);
-			while( arr[low]<pivot ) {
-				low++;
-			}
-			while( arr[high]>pivot ) {
-				high--;
-			}
-			if( low<=high ) {
-				// this.sleep(100);
-				this.swap( arr,low,high);
-				low++;
-				high--;
-			}
-		// },10);
-		}
-		return low ;
+  partition(arr:number[],low:number,high:number) { 
+	  return new Promise<number>( (resolve, reject) => {
+			let pivot= arr[ Math.floor((low+high)/2) ];
+			let interval =setInterval(() =>{
+				this.updateLow(arr,low,pivot).then(data=>{
+					low=data;
+					this.updateHigh(arr,high,pivot).then(data=>{
+						high=data;
+						if( low<=high ) {
+							this.swap( arr,low,high);
+							low++;
+							high--;
+						}
+						if(low>high){ 
+							resolve(low);
+							clearInterval(interval);
+						}
+					})
+				});
+			},this.visualSpeed);
+	  });
+		
 	}
 	
-	async quickSort(arr:number[],low:number,high:number) {
-		if(low<high){
-			let pi=await this.partition(arr,low,high)
-			await this.quickSort(arr,low,pi-1) ;
-			await this.quickSort(arr,pi,high) ;
-		} return;
+	quickSort(arr:number[],low:number,high:number) {
+		return new Promise(resolve =>{
+			if(low<high){
+				this.partition(arr,low,high).then(data => {
+					this.quickSort(arr,low,data-1).then(()=> {
+						this.quickSort(arr,data,high).then(()=> {resolve(1)}) ;
+					})
+				});
+			}
+			else{
+				resolve(1);
+			}
+		});
+		
 	}
 
 	swap(array:number[],i:number,j:number){
-		// this.sleep(1000);
 		let temp=array[i];
 		array[i]=array[j];
 		array[j]=temp;
-		return;
 	}
-
-	sleep(time:number){
-		return new Promise((resolve) =>setTimeout(resolve,time));
-	}
-
+	
+	updateLow(arr:number[],low:number,pivot:number){
+		return new Promise<number>( (resolve, reject) => {
+			while( arr[low]<pivot ) {
+				low++;
+			}
+			resolve(low);
+		});
+	  }
+	  updateHigh(arr:number[],high:number,pivot:number){
+		return new Promise<number>( (resolve, reject) => {
+			while( arr[high]>pivot ) {
+				high--;
+			}
+			resolve(high);
+		});
+	  }
 }

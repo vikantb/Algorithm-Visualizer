@@ -17,7 +17,7 @@
 
 <div style="display:flex;" >
     <div *ngFor="let num of array " class="mx-auto" >
-        <div style="border: 1px solid black; margin-left: 1px;" [style.height.px]="num" [style.width.px]="screenWidth*.8/numOfElements"></div>
+        <div class="bar" [ngClass]="{num}" [style.height.px]="num" [style.width.px]="screenWidth*.8/numOfElements"></div>
     </div>
 </div>
 
